@@ -14,7 +14,7 @@ pipeline {
                 // Build the project using Maven
                 // Ensure you have configured the Maven tool in Jenkins (e.g., 'Maven 3.6.3')
                 script {
-                    def mvnHome = tool name: 'Maven 3.6.3'
+                    def mvnHome = tool name: 'M2_HOME'
                     sh "${mvnHome}/bin/mvn clean compile"
                 }
             }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 // Run tests
                 script {
-                    def mvnHome = tool name: 'Maven 3.6.3'
+                    def mvnHome = tool name: 'M2_HOME'
                     sh "${mvnHome}/bin/mvn test"
                 }
             }
