@@ -1,42 +1,57 @@
 pipeline {
-    agent any
+    agent any 
+
+    tools {
+        maven 'M2_HOME' //Maven version
+        jdk 'JAVA_HOME' 
+    }
+
+    environment {
+        PROJECT_NAME = "kaddem"
+        GIT_REPO = "https://github.com/azizjaziri99/5SIM3-G1-Kaddem"
+        BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
+        
+       
+    }
 
     stages {
-        stage('Checkout') {
+        stage('GIT') {
             steps {
-                // Pulls the latest code from the Git repository
-                git branch: 'MedAzizJaziri-5SIM3-G1', url: 'https://github.com/azizjaziri99/5SIM3-G1-Kaddem'
+                echo 'Getting project from git...'
+                git branch: "${BRANCH_NAME}", url: "${GIT_REPO}"
+            }
+        }
+        
+        stage('MVN CLEAN') {
+            steps {
+                echo 'Running Maven clean...'
+                sh 'mvn clean'
             }
         }
 
-        stage('Build') {
+        stage('MVN COMPILE') {
             steps {
-                // Build the project using Maven
-                // Ensure you have configured the Maven tool in Jenkins (e.g., 'Maven 3.6.3')
-                script {
-                    def mvnHome = tool name: 'M2_HOME'
-                    sh "${mvnHome}/bin/mvn clean compile"
-                }
+                echo 'Running Maven compile...'
+                sh 'mvn compile'
             }
         }
 
-        stage('Test') {
+        stage('Unit Tests') {
             steps {
-                // Run tests
-                script {
-                    def mvnHome = tool name: 'M2_HOME'
-                    sh "${mvnHome}/bin/mvn test"
-                }
+                sh 'mvn test'
             }
         }
     }
 
     post {
+        always {
+            echo 'Pipeline completed.'
+        }
         success {
-            echo 'Build and Test stages completed successfully.'
+            echo 'SUCCESS.'
         }
         failure {
-            echo 'Build or Test stage failed.'
+            echo 'FAIL.'
         }
     }
 }
