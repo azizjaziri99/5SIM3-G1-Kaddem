@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -6,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Pulls the latest code from the Git repository
-                git branch: 'MedAzizJaziri-5SIM3-G1', url: 'https://github.com/azizjaziri99/5SIM3-G1-Kaddem
+                git branch: 'MedAzizJaziri-5SIM3-G1', url: 'https://github.com/azizjaziri99/5SIM3-G1-Kaddem'
             }
         }
 
