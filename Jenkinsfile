@@ -10,7 +10,7 @@ pipeline {
         PROJECT_NAME = "kaddem"
         GIT_REPO = "https://github.com/azizjaziri99/5SIM3-G1-Kaddem"
         BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
-        
+        SONARQUBE_SERVER = "SonarQube"
        
     }
 
@@ -33,6 +33,18 @@ pipeline {
             steps {
                 echo 'Running Maven compile...'
                 sh 'mvn compile'
+            }
+        }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Trigger SonarQube analysis
+                    echo 'Running SonarQube analysis...'
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
             }
         }
 
