@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        withCredentials([string(credentialsId: 'sqa_77e621ffc8bcf45f43fc24baaaa30aa84fc8adf6', variable: 'SONAR_TOKEN')]) {
                             sh "${tool 'SonarQube-Scanner'}/bin/sonar-scanner -Dsonar.projectKey=<your_project_key> -Dsonar.sources=. -Dsonar.login=$SONAR_TOKEN"
                         }
                     }
