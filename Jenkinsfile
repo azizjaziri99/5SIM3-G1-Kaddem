@@ -10,7 +10,7 @@ pipeline {
         PROJECT_NAME = "kaddem"
         GIT_REPO = "https://github.com/azizjaziri99/5SIM3-G1-Kaddem"
         BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
-        SONARQUBE_SERVER = "SonarQube"
+        SONARQUBE_SERVER = "sonarqube"
        
     }
 
@@ -36,11 +36,13 @@ pipeline {
             }
         }
         
+        stages {
         stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
                         withCredentials([string(credentialsId: 'sqa_77e621ffc8bcf45f43fc24baaaa30aa84fc8adf6', variable: 'SONAR_TOKEN')]) {
+                            echo "SonarQube Token: $SONAR_TOKEN"  // This is for debugging
                             sh "${tool 'SonarQube-Scanner'}/bin/sonar-scanner -Dsonar.projectKey=kaddem -Dsonar.sources=. -Dsonar.login=$SONAR_TOKEN"
                         }
                     }
