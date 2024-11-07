@@ -39,10 +39,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Trigger SonarQube analysis
-                    echo 'Running SonarQube analysis...'
                     withSonarQubeEnv('SonarQube') {
-                        sh 'mvn sonar:sonar'
+                        withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                            sh "${tool 'SonarQube-Scanner'}/bin/sonar-scanner -Dsonar.projectKey=<your_project_key> -Dsonar.sources=. -Dsonar.login=$SONAR_TOKEN"
+                        }
                     }
                 }
             }
