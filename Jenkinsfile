@@ -56,6 +56,8 @@ pipeline {
         }
         stage('Building Image') {
             steps {
+                sh 'docker --version'
+
                 sh 'docker build -t azizjaziri544/kaddem:1.0.0 .'
             }
         }
