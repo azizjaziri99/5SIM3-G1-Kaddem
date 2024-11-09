@@ -36,27 +36,11 @@ pipeline {
             }
         }
         
-        stage('SonarQube Analysis') {
-    steps {
-        script {
-            withSonarQubeEnv('SonarQube') {
-                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                    sh """
-                        # Ensure Maven compiles the project before running SonarQube analysis
-                        mvn clean compile
-                        
-                        # Run SonarQube scanner with proper binary location and source directory
-                        ${tool 'SonarQube-Scanner'}/bin/sonar-scanner \
-                            -Dsonar.projectKey=${PROJECT_NAME} \
-                            -Dsonar.sources=. \
-                            -Dsonar.java.binaries=target/classes \
-                            -Dsonar.login=$SONAR_TOKEN
-                    """
-                }
+        stage ('SONARQUBE') {
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=adminn -Dmaven.test.skip=true';
             }
         }
-    }
-}
 
 
         stage('Unit Tests') {
