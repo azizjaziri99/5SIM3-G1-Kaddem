@@ -56,6 +56,7 @@ pipeline {
         }
         stage('Building Image') {
             steps {
+                sh 'ls -al target/kaddem-1.0.jar'  // Confirm the JAR file exists
                 sh 'docker build -t azizjaziri544/kaddem .'
             }
         }
