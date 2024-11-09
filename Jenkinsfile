@@ -56,8 +56,7 @@ pipeline {
         }
         stage('Building Image') {
             steps {
-                sh 'ls -al target/kaddem-1.0.jar'  // Confirm the JAR file exists
-                sh 'docker build -t azizjaziri544/kaddem .'
+                sh 'docker build -t azizjaziri544/kaddem:1.0.0 .'
             }
         }
         
@@ -66,7 +65,7 @@ pipeline {
                 withEnv(['DOCKER_USER=azizjaziri544', 'DOCKER_PASS=09894276*']) {
                     sh '''
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker push azizjaziri544/kaddem
+                        docker push azizjaziri544/kaddem:1.0.0
                     '''
                 }
             }
