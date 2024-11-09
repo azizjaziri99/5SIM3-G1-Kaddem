@@ -49,6 +49,12 @@ pipeline {
             }
         }
     }
+    stage('NEXUS') {
+            steps {
+                echo 'Deploying to Nexus...'
+                sh 'mvn deploy -Dusername=admin -Dpassword=adminn -Dmaven.test.skip=true'
+            }
+        }
 
     post {
         always {
