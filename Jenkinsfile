@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Building Image') {
             steps {
-                sh 'docker build -t azizjaziri/gestion-station-ski-2.0 .'
+                sh 'docker build -t azizjaziri544/kaddem .'
             }
         }
         
@@ -65,7 +65,7 @@ pipeline {
                 withEnv(['DOCKER_USER=azizjaziri544', 'DOCKER_PASS=09894276*']) {
                     sh '''
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker push onsammar/gestion-station-ski-2.0
+                        docker push azizjaziri544/kaddem
                     '''
                 }
             }
