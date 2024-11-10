@@ -12,6 +12,7 @@ pipeline {
         BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
         SONARQUBE_SERVER = "sonarqube"
         DOCKER_IMAGE = 'azizjaziri544/kaddem:latest'
+        JAR_NAME = ""
     }
 
     stages {
@@ -47,7 +48,14 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 sh 'mvn clean package -DskipTests'
-                sh 'ls target/'
+                script {
+                    // Capture the generated JAR name
+                    env.JAR_NAME = sh(
+                        script: "ls target/*.jar | head -n 1 | xargs basename",
+                        returnStdout: true
+                    ).trim()
+                    echo "Generated JAR Name: ${env.JAR_NAME}"
+                }
             }
         }
 
@@ -78,17 +86,21 @@ pipeline {
         }
         stage('Building Image') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE} ."
-                
+                echo 'Building Docker image...'
+                script {
+                    // Pass the JAR name as a build argument to Docker
+                    sh "docker build -t ${DOCKER_IMAGE} --build-arg JAR_FILE=${env.JAR_NAME} ."
+                }
             }
         }
         
         stage('Push Image to Docker Hub') {
             steps {
+                echo 'Pushing Docker image to Docker Hub...'
                 withEnv(['DOCKER_USER=azizjaziri544', 'DOCKER_PASS=09894276*']) {
                     sh '''
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker push azizjaziri544/kaddem:1.0.0
+                        docker push ${DOCKER_IMAGE}
                     '''
                 }
             }
