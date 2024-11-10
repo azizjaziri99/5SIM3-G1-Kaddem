@@ -21,6 +21,27 @@ pipeline {
                 git branch: "${BRANCH_NAME}", url: "${GIT_REPO}"
             }
         }
+        stage('Increment Version') {
+            steps {
+                echo 'Incrementing project version with SNAPSHOT...'
+                script {
+                    sh '''
+                        CURRENT_VERSION=$(mvn -q \
+                            -Dexec.executable=echo \
+                            -Dexec.args='${project.version}' \
+                            --non-recursive exec:exec)
+                        
+                        # Increment the patch version, for example from 0.1.2 to 0.1.3
+                        NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{OFS="."; $NF++; print}')
+                        SNAPSHOT_VERSION="${NEW_VERSION}-SNAPSHOT"
+                        
+                        # Set the new version in pom.xml
+                        mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
+                        mvn versions:commit
+                    '''
+                }
+            }
+        }
         
         stage('MVN CLEAN') {
             steps {
