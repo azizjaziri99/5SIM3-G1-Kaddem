@@ -1,20 +1,11 @@
+# Use an official Java runtime as a parent image
+FROM openjdk:11-jre-slim
 
-FROM maven:3.8.5-openjdk-17 AS build
+# Set the working directory
 WORKDIR /app
 
+# Copy the application JAR to the container
+COPY target/kaddem.jar app.jar
 
-COPY pom.xml .
-COPY src/main ./src/main
-
-
-RUN mvn package -DskipTests
-
-
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-
-
-COPY --from=build /app/target/kaddem-0.0.1-SNAPSHOT.jar app.jar
-
-
-CMD ["sh", "-c", "sleep 30 && java -jar app.jar"]
+# Run the JAR file
+CMD ["java", "-jar", "app.jar"]
