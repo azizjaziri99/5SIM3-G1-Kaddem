@@ -1,40 +1,33 @@
 services:
-  mysqldb:
-    image: mysql
-    restart: always
+  mysql:
+    image: mysql:latest
+    container_name: mysqlcontainer
     environment:
-      - MYSQL_ROOT_PASSWORD=0000
-      - MYSQL_DATABASE=kaddem_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kaddem
     ports:
-      - 3306:3306
-    volumes:
-      - db:/var/lib/mysql
+      - "3307:3306"
+    networks:
+      - networkmysql
 
-  app:
+  spring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springcontainer
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: kaddem
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "8090:8080"
     depends_on:
-      - mysqldb
-    build: ./
-    ports:
-      - 8089:8089
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/kaddem_db?createDatabaseIfNotExist=true",
-        "spring.datasource.username" : "root",
-        "spring.datasource.password" : "0000",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update",
-        "server.servlet.context-path" : "/api",
-        "server.port" : 8089,
-        "spring.mvc.format.date" : "yyyy-MM-dd",
-        "spring.jpa.show-sql" : true,
-        "logging.level.root" : "info",
-        "logging.pattern.console" : "= %d{yyyy-MM-dd HH:mm:ss} -  %-5level - %logger{45} - %msg %n"
-      }'
-    volumes:
-      - ~/.m2:/root/.m2
-    stdin_open: true
-    tty: true
-    restart: always
+      - mysql
+    networks:
+      - networkmysql
 
-volumes:
-  db:
+networks:
+  networkmysql:
+    driver: bridge
