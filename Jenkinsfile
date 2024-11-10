@@ -24,8 +24,8 @@ pipeline {
         
         stage('MVN CLEAN') {
             steps {
-                echo 'Running Maven clean...'
-                sh 'mvn clean'
+                echo 'Building the application...'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
