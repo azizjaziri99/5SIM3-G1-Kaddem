@@ -26,6 +26,7 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 sh 'mvn clean package -DskipTests'
+                sh 'ls target/'
             }
         }
 
@@ -57,6 +58,7 @@ pipeline {
         stage('Building Image') {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE} ."
+                
             }
         }
         
