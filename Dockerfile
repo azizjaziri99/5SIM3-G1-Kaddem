@@ -4,8 +4,9 @@ FROM openjdk:11-jre-slim
 # Set the working directory
 WORKDIR /app
 
-# Copy the application JAR to the container
-COPY target/kaddem.jar app.jar
+# Use build argument to specify the JAR file name
+ARG JAR_FILE
+COPY target/${JAR_FILE} app.jar
 
 # Run the JAR file
 CMD ["java", "-jar", "app.jar"]
