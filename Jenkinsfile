@@ -109,6 +109,16 @@ pipeline {
                 }
             }
         }
+        stage('Start Docker Compose') {
+    steps {
+        echo 'Starting Docker Compose...'
+        script {
+            // Lancer docker-compose en mode détaché pour exécuter les services en arrière-plan
+            sh 'docker-compose -f docker-compose.yml up -d'
+        }
+    }
+}
+
     }
     
 
