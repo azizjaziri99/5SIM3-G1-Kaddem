@@ -58,7 +58,7 @@ pipeline {
             steps {
                 sh 'docker --version'
 
-                sh 'docker build -t azizjaziri544/kaddem:1.0.0 .'
+                sh 'docker build -t azizjaziri544/kaddem:1.0.0-SNAPSHOT .'
             }
         }
         
