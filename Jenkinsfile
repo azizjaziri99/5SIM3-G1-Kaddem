@@ -11,7 +11,7 @@ pipeline {
         GIT_REPO = "https://github.com/azizjaziri99/5SIM3-G1-Kaddem"
         BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
         SONARQUBE_SERVER = "sonarqube"
-       
+        DOCKER_IMAGE = 'azizjaziri544/kaddem:latest'
     }
 
     stages {
@@ -56,9 +56,7 @@ pipeline {
         }
         stage('Building Image') {
             steps {
-                sh 'docker --version'
-
-                sh 'docker build -t azizjaziri544/kaddem:1.0.0-SNAPSHOT .'
+                sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
         
