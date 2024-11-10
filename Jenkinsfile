@@ -85,14 +85,18 @@ pipeline {
             }
         }
         stage('Building Image') {
-            steps {
-                echo 'Building Docker image...'
-                script {
-                    // Pass the JAR name as a build argument to Docker
-                    sh "docker build -t ${DOCKER_IMAGE} --build-arg JAR_FILE=${env.JAR_NAME} ."
-                }
-            }
+    steps {
+        echo 'Building Docker image...'
+        script {
+            // Define the fixed JAR name set in maven-jar-plugin
+            def jarName = "kaddem-app.jar"
+            
+            // Build the Docker image with the correct JAR file name
+            sh "docker build -t ${DOCKER_IMAGE} --build-arg JAR_FILE=${jarName} ."
         }
+    }
+}
+
         
         stage('Push Image to Docker Hub') {
             steps {
