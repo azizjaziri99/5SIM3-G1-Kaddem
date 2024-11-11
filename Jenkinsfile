@@ -123,7 +123,7 @@ pipeline {
         echo 'Starting Prometheus and Grafana for monitoring...'
         script {
             // Make sure you have a valid docker-compose.yml file for Prometheus and Grafana
-            sh 'docker-compose -f docker-compose-monitoring.yml up -d'
+            sh 'docker compose -f docker-compose-monitoring.yml up -d'
         }
     }
 }
