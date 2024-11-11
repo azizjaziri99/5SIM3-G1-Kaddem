@@ -3,7 +3,7 @@ version: '3.8'
 services:
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+    container_name: prometheusContainer
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Ensure this path is correct on the host
     ports:
@@ -13,7 +13,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: grafanaContainer
     ports:
       - "3000:3000"
     environment:
