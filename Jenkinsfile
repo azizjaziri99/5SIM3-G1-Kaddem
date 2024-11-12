@@ -11,7 +11,7 @@ pipeline {
         GIT_REPO = "https://github.com/azizjaziri99/5SIM3-G1-Kaddem"
         BRANCH_NAME = "MedAzizJaziri-5SIM3-G1"
         SONARQUBE_SERVER = "sonarqube"
-        DOCKER_IMAGE = 'MedAzizJaziri-5SIM3-G1/kaddem:latest'
+        DOCKER_IMAGE = 'azizjaziri544/kaddem:latest'
         JAR_NAME = ""
     }
 
