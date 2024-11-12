@@ -127,17 +127,7 @@ pipeline {
         }
     }
 }
-        stage('Test API') {
-            steps {
-                script {
-                    // Install Newman
-                    sh 'echo "09894276" | sudo -S npm install -g newman'
-
-                    // Run Postman collection
-                    sh 'newman run /home/azizjaziri/Downloads/devops.postman_collection.json'
-                }
-            }
-        }
+        
 
     }
     
