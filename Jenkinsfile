@@ -131,7 +131,7 @@ pipeline {
             steps {
                 script {
                     // Install Newman
-                    sh 'npm install -g newman'
+                    sh 'sudo npm install -g newman'
 
                     // Run Postman collection
                     sh 'newman run /home/azizjaziri/Downloads/devops.postman_collection.json'
