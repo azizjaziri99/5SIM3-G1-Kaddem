@@ -73,7 +73,7 @@ pipeline {
         }
 
 
-        stage('Unit Tests') {
+        stage('MOCKITO') {
             steps {
                 sh 'mvn test'
             }
@@ -84,7 +84,7 @@ pipeline {
                 sh 'mvn deploy -Dusername=admin -Dpassword=adminn -Dmaven.test.skip=true'
             }
         }
-        stage('Building Image') {
+        stage('Docker Image') {
     steps {
         echo 'Building Docker image...'
         script {
@@ -98,7 +98,7 @@ pipeline {
 }
 
         
-        stage('Push Image to Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
                 withEnv(['DOCKER_USER=azizjaziri544', 'DOCKER_PASS=09894276*']) {
@@ -109,7 +109,7 @@ pipeline {
                 }
             }
         }
-        stage('Start Docker Compose') {
+        stage('Docker Compose') {
     steps {
         echo 'Starting Docker Compose...'
         script {
@@ -118,7 +118,7 @@ pipeline {
         }
     }
 }
-        stage('Monitoring') {
+        stage('Prometheus/Grafana') {
     steps {
         echo 'Starting Prometheus and Grafana for monitoring...'
         script {
